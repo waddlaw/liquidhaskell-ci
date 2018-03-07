@@ -66,9 +66,7 @@ jobs:
       - checkout
       - run:
           name: Run LiquidHaskell
-          command: |
-            ls
-            liquid
+          command: liquid src/Lib.hs
 workflows:
   version: 2
   test-hlint-pedantic:
