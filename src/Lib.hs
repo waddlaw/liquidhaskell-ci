@@ -34,7 +34,7 @@ cons :: a -> SList a -> SList a
 cons x (SL n xs) = SL (n+1) (x:xs)
 
 {-@ die :: { v:String | false } -> a @-}
-die :: [Char] -> a
+die :: String -> a
 die = error
 
 {-@ hd :: { xs:SList a | size xs > 0 } -> a @-}
@@ -138,4 +138,4 @@ okTake = take 2 exampleQ -- accept
 
 {-@ exampleQ :: QueueN String 3 @-}
 exampleQ :: Queue String
-exampleQ = insert "nal" $ insert "bob" $ insert "alice" $ emp
+exampleQ = insert "nal" $ insert "bob" $ insert "alice" emp
