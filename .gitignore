@@ -1,3 +1,4 @@
 .stack-work/
 liquidhaskell-ci.cabal
 *~
+.liquid
