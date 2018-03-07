@@ -9,6 +9,9 @@ before_install:
 - mkdir -p ~/.local/bin
 - export PATH=$HOME/.local/bin:$PATH
 - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository ppa:hvr/z3 -y > /dev/null; sudo apt-key -qq update /dev/null; sudo apt-get -qq update; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq install z3 -y --force-yes; fi
+- stack install liquidhaskell
 install:
 - stack --no-terminal test --only-dependencies
 jobs:
@@ -21,6 +24,8 @@ jobs:
       - stack --no-terminal test --fast --pedantic
     - stage: Run HLint
       script: curl -sL https://raw.github.com/ndmitchell/hlint/master/misc/travis.sh | sh -s .
+    - stage: Run Liquid Haskell
+      script: stack exec -- liquid src/Lib.hs
 
 notifications:
   email: false
