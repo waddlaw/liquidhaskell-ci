@@ -26,12 +26,15 @@ okList = SL 1 ["cat"]
 {-@ type SListN a N = {v:SList a | size v = N} @-}
 
 {-@ nil :: SListN a 0 @-}
+nil :: SList a
 nil = SL 0 []
 
 {-@ cons :: a -> xs:SList a -> SListN a {size xs + 1} @-}
+cons :: a -> SList a -> SList a
 cons x (SL n xs) = SL (n+1) (x:xs)
 
 {-@ die :: { v:String | false } -> a @-}
+die :: [Char] -> a
 die = error
 
 {-@ hd :: { xs:SList a | size xs > 0 } -> a @-}
@@ -40,6 +43,7 @@ hd (SL _ (x:_)) = x
 hd _ = die "empty SList"
 
 {-@ tl :: { xs:SList a | size xs > 0 } -> SListN a {size xs - 1} @-}
+tl :: SList a -> SList a
 tl (SL n (_:xs)) = SL (n-1) xs
 tl _             = die "empty SList"
 
@@ -103,6 +107,7 @@ replicate 0 _ = emp
 replicate n x = insert x (replicate (n-1) x)
 
 {-@ y3 :: QueueN _ 3 @-}
+y3 :: Queue String
 y3 = replicate 3 "Yeah!"
 
 {-@ makeq :: f:SList a -> {b:SList a | size b > size f => size b - size f = 1 } -> QueueN a {size f + size b} @-}
