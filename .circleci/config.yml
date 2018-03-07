@@ -59,6 +59,16 @@ jobs:
           key: stack-{{ .Environment.COMMON_CACHE_KEY }}-{{ checksum "stack.yaml" }}-{{ checksum "package.yaml" }}
           paths:
             - .circleci/code/.stack-work
+  liquidhaskell:
+    docker:
+      - image: waddlaw/liquidhaskell:0.8.0.5
+    steps:
+      - checkout
+      - run:
+          name: Run LiquidHaskell
+          command: |
+            ls
+            liquid
 workflows:
   version: 2
   test-hlint-pedantic:
@@ -68,5 +78,8 @@ workflows:
           requires:
             - test
       - pedantic:
+          requires:
+            - test
+      - liquidhaskell:
           requires:
             - test
